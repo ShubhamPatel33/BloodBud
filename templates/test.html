@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xmeme</title>
+</head>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="css/main.css" >
+<style>
+    body {
+        margin:0;
+        padding:0;
+        font-family: sans-serif;
+        background: linear-gradient(#141e30, #243b55);
+      }
+    
+      nav {
+        background-color: #141e30;
+      }
+      
+      .login-box {
+        position: relative;
+        top: 35%;
+        left: 50%;   
+        width: 400px;
+        padding: 40px;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,.5);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0,0,0,.6);
+        border-radius: 10px;
+        flex: 50%;
+        margin-bottom: 20px;
+        margin-top: 20px;
+       
+      }
+    
+       h1 {
+        margin-top: 80px;
+        margin-bottom: 0px;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+      }
+      
+      .login-box h2 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+      }
+    
+      .login-box h4 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align:left;
+      }
+    
+      .login-box img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
+      
+      .login-box .user-box {
+        position: relative;
+      }
+      
+      .login-box .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+        background: transparent;
+      }
+      .login-box .user-box label {
+        position: absolute;
+        top:0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        pointer-events: none;
+        transition: .5s;
+      }
+      
+      .login-box .user-box input:focus ~ label,
+      .login-box .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #03e9f4;
+        font-size: 12px;
+      }
+    
+      
+      
+      .login-box form button {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        color: white;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: .5s;
+        margin-top: 10px;
+        letter-spacing: 4px;
+        margin-left: 100px;
+        background:#135fac ;
+        border-radius: 5px;
+       
+      }
+      
+      .login-box button:hover {
+        background: #1d8cf8;
+        color: #fff;
+        border-radius: 5px;
+       
+      }
+      
+      .login-box button span {
+        position: absolute;
+        display: block;
+      }
+    
+      /*.container {
+        margin: 15px;
+        /*background: linear-gradient(#141e30, #243b55);
+        background: yellow;
+      }*/
+    
+      .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      
+      .column {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 1;
+      }
+    
+      .wrap{
+          display:flex;
+      }
+    
+      .box{
+          height:100vh;
+          width:100vh;
+          overflow-x: hidden;
+          overflow-y: scroll;
+      }
+      
+      .box::-webkit-scrollbar{
+          display: none;
+      }
+    
+      .x{
+        background: rgba(0,0,0,.5);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0,0,0,.6);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        top: 10%;
+        left: 27%;   
+        width: 350px;
+       
+      }
+    
+      .card-img-top
+      {
+    
+        height:250px;
+        width: 348px;
+      }  
+       
+      
+</style>
+<body>
+   
+
+      <nav class="navbar navbar-expand-lg navbar-dark ">
+        <a class="navbar-brand" href="index.html">XMEME</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="search.html">Search</a>
+            
+          </div>
+        </div>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search"  id="search"  placeholder="Search" aria-label="Search">
+            <button type = "button" class="btn btn-outline-success my-2 my-sm-0" onclick="SearchData()" >Search</button>
+          </form>
+      </nav>
+    <div class="wrap">
+       
+        <div class="box">
+            <div>
+                <select style="color:white ;margin-left: 195px; margin-bottom: 30px; margin-top: 60px;" onchange="SortData()" class="x form-select form-select-lg " id = "order" aria-label=".form-select-lg example">
+                    <option selected>Sort By </option>
+                    <option value="1">Oldest</option>
+                    <option value="2">Hottest</option>
+                    <option value="3">Newest</option>
+                  </select>
+
+                  
+            </div>
+           <div  id="app" ></div>
+
+        </div>
+
+        <div class="box">
+          
+            <!-- <h1 >Meme Stream</h1>
+            <div class="login-box">
+                <h2>Add Meme</h2>
+            <form>
+            <div class="user-box">
+                <input type="text" id="author" name="" >
+                <label>Author</label>
+            </div>
+            <div class="user-box">
+                <input type="text" id = "caption" name="" >
+                <label>Caption</label>
+            </div>
+
+            <div class="user-box">
+                <input type="text" id = "image_url" name="">
+                <label>Image URL</label>
+            </div>
+            
+                <button id="post-button" >Submit</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+               
+            
+            </form>
+        </div>
+    
+        </div> -->
+        <div class="login-box">
+        <div id="map"></div>
+    </div>
+    </div>
+
+   
+</body>
+<script>
+       
+    let map, infoWindow;
+const arr = []
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 6,
+  });
+  infoWindow = new google.maps.InfoWindow();
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Pan to Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+
+    
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            infoWindow.setPosition(pos);
+            infoWindow.setContent("Location found.");
+            infoWindow.open(map);
+            map.setCenter(pos);
+  
+            const marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            label: "Home",
+          });
+  
+           
+          var markers;
+         {% for i in data %}
+          
+          markers = new google.maps.Marker({
+          position: new google.maps.LatLng( {{i.latitude}}, {{i.longitude}} ),
+          map: map,
+          label: "aayush"+{{i.id}},
+          id: {{i.id}},
+        });
+
+
+        google.maps.event.addListener(markers, "click", (e) => {
+            console.log(markers.getPosition().lat());
+            console.log(`LatLng[${e["id"]}]: ${e.latLng.lat()}. ${e.latLng.lng()}`);
+
+            findmarker(`${e.latLng.lat()}`,`${e.latLng.lng()}`)
+          });
+
+            arr.push(markers);
+
+         {% endfor%}
+
+         console.log(arr)
+  
+          
+      /*  console.log(arr[0])
+
+
+        for(i = 0;i<arr.length;i++)
+        {
+            console.log(i);
+            console.log(arr[i]);
+            google.maps.event.addListener(arr[i], 'click', function() {
+                
+                console.log(arr[i])
+                
+            });                               
+        
+        }
+
+        console.log(arr[0].get('id'))  */
+
+         const cityCircle = new google.maps.Circle({
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+            map,
+            center: pos,
+            radius: 30775.369880704726,
+          });
+
+
+
+          },
+          () => {
+            handleLocationError(true, infoWindow, map.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+
+      
+
+  locationButton.addEventListener("click", () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Location found.");
+          infoWindow.open(map);
+          map.setCenter(pos);
+
+          const marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          label: "Home",
+        });
+
+          
+
+        var markers;
+       {% for i in data %}
+       
+        markers = new google.maps.Marker({
+        position: new google.maps.LatLng( {{i.latitude}}, {{i.longitude}} ),
+        map: map
+      });
+
+       {% endfor%}
+
+
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  });
+}
+
+var highlightmarker;
+
+function findmarker(lat, lon){
+
+    for(i = 0;i<arr.length;i++)
+    {
+        //console.log((arr[i].getPosition().lat() == lat) && (arr[i].getPosition().lng() == lon))
+        console.log(arr[i]['id'])
+        if((arr[i].getPosition().lat() == lat) && (arr[i].getPosition().lng() == lon))
+        {
+            highlightmarker = arr[i]
+        }
+    }
+
+    document.getElementById("text").innerHTML="";
+
+    const html = `Label:<span>${highlightmarker.label}</span>
+    <br>
+    id:<span>${highlightmarker.id}</span>`
+
+    document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
+    
+} 
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow.open(map);
+}
+  
+</script>
+
+</html>

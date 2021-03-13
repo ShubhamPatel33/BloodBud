@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
+        console.log(JSON.stringify(data, null, 2));
+      
+        console.log(data['geoplugin_request'])
+
+        document.getElementById('ip').value = data['geoplugin_request']
+      });
+</script>
+</head>
+<body>
+    <form action="register" class="bg-white p-5 contact-form" method="post" novalidate="novalidate">
+
+        {% csrf_token %}
+
+
+              <div class="form-group">
+                <input type="text" class="form-control" id="name" name="name" value=""
+                    placeholder="Full Name">
+
+              </div>
+              
+              <div class="form-group">
+                <input type="text" class="form-control" id="contact" name="contact" value=""
+                    placeholder="contact">
+              </div>
+
+              <div class="form-group">
+                <input type="text" class="form-control" id="address" name="address" value=""
+                    placeholder="address">
+              </div>
+
+              <div class="form-group">
+                <input type="hidden" class="form-control" id="ip" name="ip" value=""
+                    placeholder="ip">
+              </div>
+
+              <input type="submit" value="Register" class="btn btn-primary py-3 px-5">
+
+          </form>    
+</body>
+
+</html>
