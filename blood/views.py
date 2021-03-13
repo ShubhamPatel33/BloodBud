@@ -5,12 +5,13 @@ from math import sin, cos, sqrt, atan2, radians, degrees, sin, cos, radians, deg
 
 # from django.contrib.gis.geos import Point
 
+from django.contrib.auth.models import User, auth
 
 from geopy.distance import distance as geopy_distance
 
 import requests
 
-key = "b4ed70f1b29088efdaaac1f5d5e69873"
+key = "b13a62180a4dc9a03cb00217ab0f4aba"
 
 #twilio
 from django.conf import settings                                                                                                                                                       
@@ -172,6 +173,9 @@ def register(request):
         contact = request.POST['contact']
         address = request.POST['address']
         ip = request.POST['ip']
+        username = request.POST['username']
+        password =request.POST['password']
+        bloodgroup = request.POST['bloodgroup']
         print(name)
         print(ip)
 
@@ -185,8 +189,10 @@ def register(request):
         lon = response['longitude']
 
         loc = Location.objects.create(latitude= lat, longitude=lon)
-
-        Profile.objects.create(name = name, contact = contact, address = address, location=loc, ip = ip)
+        user = User.objects.create_user(username = username, password = password )
+        user.save()
+        loc.save()
+        Profile.objects.create(bloodgroup = bloodgroup, name = name, contact = contact, address = address, location=loc, ip = ip, user=user)
 
         return render(request, 'intro.html')
 #http://api.ipstack.com/103.216.68.137?access_key=b4ed70f1b29088efdaaac1f5d5e69873
@@ -203,3 +209,43 @@ def sms(request):
                                    from_="+14422426473",
                                    body=message_to_broadcast)
     return HttpResponse("messages sent!", 200)
+
+def login(request):
+    if request.method == "POST":
+        
+        username = request.POST['username']
+        password =request.POST['password']
+        
+        user =  auth.authenticate(username=username,password=password)
+        print(user)
+        try:
+            
+            auth.login(request, user)
+            return render(request, 'intro.html')
+        except:
+            print("error")
+            pass
+
+    return render(request, 'logindonor.html')  
+
+def mydata(request):
+
+    if request.method == "POST":
+        name = request.POST['name']
+        contact = request.POST['contact']
+        address = request.POST['address']
+        bloodgroup = request.POST['bloodgroup']
+        username = request.user.username
+
+        Profile.objects.filter(user__username=username).update(bloodgroup = bloodgroup, name = name, contact = contact, address = address)
+        
+
+        return render(request, 'mydata.html')
+        
+    z = User.objects.filter(username=request.user.username)
+
+    print(z)
+    data = Profile.objects.get(user = z[0])
+    
+    
+    return render(request, 'mydata.html', {'data':data})    
