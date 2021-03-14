@@ -3,7 +3,7 @@ from .models import Location, Profile
 # Create your views here.
 from math import sin, cos, sqrt, atan2, radians, degrees, sin, cos, radians, degrees, acos
 
-# from django.contrib.gis.geos import Point
+
 
 from django.contrib.auth.models import User, auth
 
@@ -83,7 +83,7 @@ def search(request):
         print("hi")
         # print(x.ip)
         url = "http://api.ipstack.com/" + ip +"?access_key=" + key
-        #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+        
         response = requests.get(url).json()
         # print(response)
         lat = response['latitude']
@@ -122,65 +122,6 @@ def search(request):
     print(car)
     return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car, } ) 
 
-def test(request):
-    
-    # if request.method == 'POST':
-    print("hello")
-    
-    radius = 400000
-
-    user_lat = radians(19.1778797)
-    user_lon = radians(72.8733183)
-
-    data = Profile.objects.all()
-
-    R = 6373.0
-
-    # lat1 = radians(52.2296756)
-    # lon1 = radians(21.0122287)
-
-    ls = []
-    print(radius)
-    for x in data:
-        lat_user = radians(19.1778797)
-        ip = x.ip
-        key = "0f9f6b4b15d7c900a25be24e309d5b99"
-        print("hi")
-        print(x.ip)
-        url = "http://api.ipstack.com/" + ip +"?access_key=" + key
-        #http://api.ipstack.com/
-        response = requests.get(url).json()
-        print(response)
-        lat = response['latitude']
-        lon = response['longitude']
-
-        lat_b = radians(lat)
-        long_diff = radians(72.8733183 - lon)
-        distance = (sin(lat_user) * sin(lat_b) +
-                    cos(lat_user) * cos(lat_b) * cos(long_diff))
-        resToMile = degrees(acos(distance)) * 69.09
-        resToMt = resToMile / 0.00062137119223733
-
-        print(resToMt)
-
-        if resToMt < radius:
-            temp={}
-            temp['name'] = x.name
-            temp['contact'] = x.contact
-            temp['address'] = x.address
-
-            ip = x.ip
-
-            temp['latitude'] = lat
-            temp['longitude'] = lon
-
-            temp['id'] = x.id
-
-            ls.append(temp)
-                
-    print(ls)
-
-    return render(request, 'search.html', {'data': ls} )
 
 def register(request):
 
@@ -211,7 +152,7 @@ def register(request):
         Profile.objects.create(bloodgroup = bloodgroup, name = name, contact = contact, address = address, location=loc, ip = ip, user=user)
 
         return render(request, 'index.html')
-#http://api.ipstack.com/103.216.68.137?access_key=b4ed70f1b29088efdaaac1f5d5e69873
+
     return render(request, 'register.html')    
 
 
@@ -276,7 +217,7 @@ def emergency(request):
         # print("hi")
         # print(x.ip)
         url = "http://api.ipstack.com/" + ip +"?access_key=" + key
-        #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+        
         response = requests.get(url).json()
         # print(response)
         lat_user = response['latitude']
@@ -301,10 +242,7 @@ def emergency(request):
 
         R = 6373.0
 
-        # lat1 = radians(52.2296756) 52.2296756, 21.0122287
-        # lon1 = radians(21.0122287) 19.1778797, 72.8733183   
-        # #https://maps.googleapis.com/maps/api/geocode/json?latlng=44.4647452,7.3553838&key=YOUR_API_KEY
-
+        
         ls = []
         print(radius)
         for x in data:
@@ -314,7 +252,7 @@ def emergency(request):
             print("hi")
             # print(x.ip)
             url = "http://api.ipstack.com/" + ip +"?access_key=" + key
-            #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+            
             response = requests.get(url).json()
             # print(response)
             lat = response['latitude']
@@ -347,7 +285,7 @@ def emergency(request):
                 ls.append(temp)
                     
         print(ls)
-        # print(radius)
+        
         print(car)
 
         contact_list = []
