@@ -184,6 +184,7 @@ def login(request):
             pass
 
     return render(request, 'logindonor.html')  
+#pa_autoconfigure_django.py --python=3.8 https://github.com/aayush1204/BloodBud.git
 
 def mydata(request):
 
