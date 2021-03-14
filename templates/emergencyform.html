@@ -1,0 +1,150 @@
+<!-- {% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Donor Registration</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/intro-css.css' %}">
+	<meta name="viewport" content="width=device-width , initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="sub-container">
+      <form class="inputs" action="studentAction.php" autocomplete="off" method="POST">
+        <div class="heading">Login As Donor </div>
+        <br>
+        <input class="text-input" type="text" name="name" autocomplete="on" placeholder="Name">
+        <br>
+        <input class="text-input" type="text" name="bg" placeholder="Blood Group">
+       
+        <br>
+        <input class="text-input" type="text" name="address" placeholder="Address">
+        <br>
+        <input class="login-btn" type="submit" name="submit" value="Login">
+      </form>
+    </div>
+  </div>
+</body>
+</html> -->
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
+                console.log(JSON.stringify(data, null, 2));
+              
+                console.log(data['geoplugin_request'])
+
+                document.getElementById('ip').value = data['geoplugin_request']
+              });
+        </script>
+        <title>Welcome</title>
+    </head>
+    <body class="bg-gray-900">
+        <style>
+            a:hover {
+                cursor: pointer;
+                transition: ease 0.35s;
+                border: white solid 1px;
+                border-radius: 12px;
+                padding: 5px;
+            }
+            a {
+                color: white;
+            }
+        </style>
+        <header class="bg-red-500 body-font">
+            <div
+                class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
+            >
+                <div
+                    class="flex title-font font-medium items-center text-white mb-4 md:mb-0"
+                >
+                    <img
+                        id="logo"
+                        src="{% static 'images/heart.png' %}"
+                        alt="img"
+                        width="40px"
+                        height="40px"
+                    />
+                    <span class="ml-3 text-xl font-bold text-2xl"
+                        >Get Donor</span
+                    >
+                </div>
+                <nav
+                    class="md:ml-auto flex flex-wrap items-center text-base justify-center"
+                >
+                    <a
+                        class="mr-5 hover:text-black text-lg font-semibold"
+                        href="{% url 'search' %}"
+                        >Donor Map</a
+                    >
+                    <a
+                        class="mr-5 hover:text-black text-lg font-semibold"
+                        href="#"
+                        >Compatibility</a
+                    >
+                    <a
+                        class="mr-5 hover:text-black text-lg font-semibold"
+                        href="{% url 'mydata' %}"
+                        >My data</a
+                    >
+                </nav>
+            </div>
+        </header>
+        <section class="text-gray-400 body-font">
+            <!-- <div
+                class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center"
+            > -->
+            <div class = "container mx-auto px-5 py-24 ">
+               
+            <!-- <div class="py-20 px-2"> -->
+              <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-md">
+                  <div class="md:flex">
+                      <div class="w-full p-3 px-6 py-10">
+
+                        <form action="emergency"  method="post" novalidate="novalidate">
+
+                          {% csrf_token %}
+                          <div class="text-center"> <span class="text-xl text-gray-700">Emergency alert </span> </div>
+                          <!-- <div class="mt-3 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Username</span> <input type="text" id="username" name="username" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                          <div class="mt-3 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Password</span> <input type="password" id="password" name="password" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                       
+                          <div class="mt-3 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Full name</span> <input type="text" id="name" name="name" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                          <div class="mt-4 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Contact Number</span> <input type="text" id="contact" name="contact" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                          <div class="mt-4 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Address</span> <input type="text" id="address" name="address" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                          <div class="mt-4 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Blood Group</span> <input type="text" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                           -->
+
+                           <div class="mt-3 relative"> <span class="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">Message</span> <input type="text" id="message" name="message" class="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"> </div>
+                       
+                          <input type="hidden" class="form-control" id="ip" name="ip" value="" placeholder="ip">
+                          
+                          <!-- <input type="submit" value="Register" class="btn btn-primary py-3 px-5"> -->
+
+                          <div class="mt-4"> <input type="submit" class="h-12 w-full bg-red-600 text-white rounded hover:bg-red-700" value="CLick to send the message"> </div>
+                      </div>
+                  </div>
+              </div>
+          <!-- </div> -->
+        
+        </div>
+            <!-- </div> -->
+        </section>
+    </body>
+</html>
+

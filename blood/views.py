@@ -264,3 +264,96 @@ def mydata(request):
     
     
     return render(request, 'mydata.html', {'data':data})    
+
+def emergency(request):
+
+    if request.method=="POST":
+        message = request.POST['message']
+        ip = request.POST['ip']
+
+        key = "0f9f6b4b15d7c900a25be24e309d5b99"
+        # print("hi")
+        # print(x.ip)
+        url = "http://api.ipstack.com/" + ip +"?access_key=" + key
+        #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+        response = requests.get(url).json()
+        # print(response)
+        lat__ = response['latitude']
+        lon = response['longitude']
+        
+        radius = 10000
+        car = 1
+        user_lat = radians(response['latitude'])
+        user_lon = radians(response['longitude'])
+
+        data = Profile.objects.all()
+
+        R = 6373.0
+
+        # lat1 = radians(52.2296756)
+        # lon1 = radians(21.0122287)
+
+        ls = []
+        print(radius)
+        for x in data:
+            lat_user = radians(19.1778797)
+            ip = x.ip
+            key = "0f9f6b4b15d7c900a25be24e309d5b99"
+            print("hi")
+            # print(x.ip)
+            url = "http://api.ipstack.com/" + ip +"?access_key=" + key
+            #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+            response = requests.get(url).json()
+            # print(response)
+            lat = response['latitude']
+            lon = response['longitude']
+
+            lat_b = radians(lat)
+            long_diff = radians(72.8733183 - lon)
+            distance = (sin(lat_user) * sin(lat_b) +
+                        cos(lat_user) * cos(lat_b) * cos(long_diff))
+            resToMile = degrees(acos(distance)) * 69.09
+            resToMt = resToMile / 0.00062137119223733
+
+            # print(resToMt)
+
+            if resToMt < radius:
+                temp={}
+                temp['name'] = x.name
+                temp['contact'] = x.contact
+                temp['address'] = x.address
+
+                ip = x.ip
+
+                temp['latitude'] = lat
+                temp['longitude'] = lon
+
+                temp['id'] = x.id
+
+                temp['bloodgroup'] = x.bloodgroup
+
+                ls.append(temp)
+                    
+        print(ls)
+        # print(radius)
+        print(car)
+
+        contact_list = []
+
+        for x in ls:
+            temp = "+"+str(x['contact'])
+            contact_list.append(temp)
+            print(x['contact'])
+
+        message_to_broadcast = (message)
+        client = Client("AC9d8a94f846d748f362e6dda727e83eaa", "ec46f7a3a849a73af6db6874516a2c3b")
+        for recipient in contact_list:
+            if recipient:
+                client.messages.create(to=recipient,
+                                    from_="+14422426473",
+                                    body=message_to_broadcast)
+        return HttpResponse("messages sent!", 200)
+
+        
+
+    return render(request, 'emergencyform.html')    
