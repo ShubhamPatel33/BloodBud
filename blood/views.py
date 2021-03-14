@@ -50,7 +50,7 @@ def home(request):
         ls.append(temp)
 
     print(ls)
-    return render(request, 'intro.html',{'data': ls} )
+    return render(request, 'index.html',{'data': ls} )
 
 @csrf_exempt
 def search(request):
@@ -117,9 +117,26 @@ def search(request):
             ls.append(temp)
                 
     print(ls)
+
+    #BLOOD Banks
+    lsbb = []
+    url2 = "https://livingatlas.esri.in/server/rest/services/LivingAtlas/IND_BloodBank_Directory/MapServer/0/query?where=district%20%3D%20'MUMBAI'&outFields=objectid,blood_bank_name,pincode,contact_no,mobile,latitude,longitude,address,helpline,state,city,district&outSR=4326&f=json"
     # print(radius)
+
+    d = response = requests.get(url2).json()
+    # print(d['features'])
+    for a in d['features']:
+        temp_bank = {}
+
+        temp_bank['latitude'] = a['attributes']['latitude']
+        temp_bank['longitude'] = a['attributes']['longitude']
+        temp_bank['blood_bank_name'] = a['attributes']['blood_bank_name']
+        temp_bank['contact_no'] = a['attributes']['contact_no']
+        temp_bank['address'] = a['attributes']['address']
+        lsbb.append(temp_bank)
+        print(a['geometry']['x'])
     print(car)
-    return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car} )
+    return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car, 'lsbb':lsbb} ) 
 
 def test(request):
     
@@ -209,7 +226,7 @@ def register(request):
         loc.save()
         Profile.objects.create(bloodgroup = bloodgroup, name = name, contact = contact, address = address, location=loc, ip = ip, user=user)
 
-        return render(request, 'intro.html')
+        return render(request, 'index.html')
 #http://api.ipstack.com/103.216.68.137?access_key=b4ed70f1b29088efdaaac1f5d5e69873
     return render(request, 'register.html')    
 
@@ -236,7 +253,7 @@ def login(request):
         try:
             
             auth.login(request, user)
-            return render(request, 'intro.html')
+            return render(request, 'index.html')
         except:
             print("error")
             pass
@@ -255,7 +272,7 @@ def mydata(request):
         Profile.objects.filter(user__username=username).update(bloodgroup = bloodgroup, name = name, contact = contact, address = address)
         
 
-        return render(request, 'intro.html')
+        return render(request, 'index.html')
         
     z = User.objects.filter(username=request.user.username)
 
@@ -278,9 +295,19 @@ def emergency(request):
         #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
         response = requests.get(url).json()
         # print(response)
-        lat__ = response['latitude']
-        lon = response['longitude']
-        
+        lat_user = response['latitude']
+        lon_user = response['longitude']
+        print(lat_user)
+        print(lon_user)
+        from opencage.geocoder import OpenCageGeocode
+        key = '8c0d6897d5334facb9c5419400ff2dab'
+
+        geocoder = OpenCageGeocode(key)
+
+        results = geocoder.reverse_geocode(lat_user, lon_user )
+        print(results[0]['formatted'])
+        add = results[0]['formatted']
+        message = message + "Address- " + add
         radius = 10000
         car = 1
         user_lat = radians(response['latitude'])
@@ -290,8 +317,9 @@ def emergency(request):
 
         R = 6373.0
 
-        # lat1 = radians(52.2296756)
-        # lon1 = radians(21.0122287)
+        # lat1 = radians(52.2296756) 52.2296756, 21.0122287
+        # lon1 = radians(21.0122287) 19.1778797, 72.8733183   
+        # #https://maps.googleapis.com/maps/api/geocode/json?latlng=44.4647452,7.3553838&key=YOUR_API_KEY
 
         ls = []
         print(radius)

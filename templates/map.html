@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body>
+<body >
     <script>
         // Note: This example requires that you consent to location sharing when
   // prompted by your browser. If you see the error "The Geolocation service
@@ -20,6 +20,7 @@
   // locate you.
   let map, infoWindow;
   const arr = []
+  const arrbb = []
 
   
   function initMap() {
@@ -81,6 +82,74 @@
               arr.push(markers);
   
            {% endfor%}
+
+           //Blood Banks
+
+           const pos3 = {
+            lat: 19.128442,
+            lng: 72.866496,
+          };
+          const marker3 = new google.maps.Marker({
+          position: pos3,
+          map: map,
+          label: "Holy Spirit Hospital Blood Bank",
+          contact: "022 28200353",
+          address: "Mahakali  Road, Andheri (E), Mumbai",
+        });
+
+        infoWindow3 = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker3, "click", (e) => {
+           
+            infoWindow3 = new google.maps.InfoWindow();
+
+            var name = marker3.label;
+            var contact = marker3.contact;
+            var address = marker3.address;
+            const html = "<h1 style='font-size: 20px'>Hey!</h1><h1 style='font-size: 20px'> We are <span style='color:red'>" 
+                +name +"  </span></h1>" 
+                    +"<h1> We are located at " + address + "</h1>"+ '<a style="color:black; bg-color:black" class = "btn" href=tel:' + contact + '>Click to Call Us!</a>'
+
+            const infowindow = new google.maps.InfoWindow({
+                content: html,
+            });
+            
+            infowindow.open(map, marker3);
+          });
+  
+
+          const pos4 = {
+            lat: 19.245458,
+            lng: 72.856027,
+          };
+          const marker4 = new google.maps.Marker({
+          position: pos4,
+          map: map,
+          name: "Harilal Bhagwati Hospital Blood Bank",
+          contact: "022 28932461",
+          address: "S. V. P. Road, Borivali-W, Mumbai",
+        });
+
+        
+        google.maps.event.addListener(marker4, "click", (e) => {
+           
+            
+
+            var name = marker4.name;
+            var contact = marker4.contact;
+            var address = marker4.address;
+            var num = "tel:"+ contact
+            console.log(num)
+
+            const html = "<h1 style='font-size: 20px'>Hey!</h1><h1 style='font-size: 20px'> We are <span style='color:red'>" 
+                        +name +"  </span></h1>" 
+                            +"<h1> We are located at " + address + "</h1>"+ '<a style="color:black; bg-color:black" class = "btn" href=tel:' + contact + '>Click to Call Us!</a>'
+        
+            const infowindow4 = new google.maps.InfoWindow({
+                content: html,
+            });
+            
+            infowindow4.open(map, marker4);
+          });
   
            console.log(arr)
     
@@ -178,16 +247,20 @@
   var highlightmarker;
   
   function findmarker(lat, lon){
-  
+
+    var flag=0;
       for(i = 0;i<arr.length;i++)
       {
           //console.log((arr[i].getPosition().lat() == lat) && (arr[i].getPosition().lng() == lon))
           console.log(arr[i]['id'])
           if((arr[i].getPosition().lat() == lat) && (arr[i].getPosition().lng() == lon))
           {
-              highlightmarker = arr[i]
+              highlightmarker = arr[i];
+              flag=1;
           }
       }
+
+
   
       document.getElementById("text").innerHTML="";
   
@@ -204,9 +277,10 @@
       var name = highlightmarker.name;
       var contact = highlightmarker.contact;
       var bloodgroup = highlightmarker.bloodgroup;
+      var address = highlightmarker.address;
       const html = "<h1 style='font-size: 20px'>Hey!</h1><h1 style='font-size: 20px'> I am <span style='color:red'>" 
-                  +name +"  </span></h1><br><h1>My contact -  <span style='color:red'>" + contact+"</h1>"
-                    +"<h1>My blood group is <span style='color:red'>" + bloodgroup + "</span></h1>"
+                  +name +"  </span></h1><br><h1>I am an <span style='color:red'>" + bloodgroup+"</span> donor.</h1>"
+                    +"<h1>I live in " + address + "</h1>"+ '<a style="color:black; bg-color:black" class = "btn btn-primary" href=tel:' + contact + '>Click to Call Me!</a>'
   
      // document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
 
@@ -215,6 +289,42 @@
       });
       
       infowindow.open(map, highlightmarker);
+
+      if(flag==0)
+      {
+
+                for(i = 0;i<arrbb.length;i++)
+            {
+                //console.log((arr[i].getPosition().lat() == lat) && (arr[i].getPosition().lng() == lon))
+                console.log(arrbb[i]['id'])
+                if((arrbb[i].getPosition().lat() == lat) && (arrbb[i].getPosition().lng() == lon))
+                {
+                    highlightmarker = arrbb[i];
+                    flag=1;
+                }
+            }
+
+
+        
+            document.getElementById("text").innerHTML="";
+        
+            
+            var name = highlightmarker.name;
+            var contact = highlightmarker.contact;
+            var address = highlightmarker.address;
+            const html = "<h1 style='font-size: 20px'>Hey!</h1><h1 style='font-size: 20px'> I am <span style='color:red'>" 
+                        +name +"  </span></h1><br><h1>My contact -  <span style='color:red'>" + contact+"</h1>"
+                            +"<h1>Address is <span style='color:red'>" + address + "</span></h1>"
+        
+            // document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
+
+            const infowindow = new google.maps.InfoWindow({
+                content: html,
+            });
+            
+            infowindow.open(map, highlightmarker);
+
+      }
       
   } 
   
@@ -254,6 +364,7 @@
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Compatibility</a>
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'mydata' %}">My data</a>
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'emergency' %}">Emergency</a>
+                <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'home' %}">Home</a>
             </nav>
         </div>
     </header>
