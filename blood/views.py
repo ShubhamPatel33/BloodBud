@@ -137,7 +137,7 @@ def register(request):
         print(ip)
 
            
-        key = "b4ed70f1b29088efdaaac1f5d5e69873"
+        key = "0f9f6b4b15d7c900a25be24e309d5b99"
         
         url = "http://api.ipstack.com/" + ip +"?access_key=" + key
         response = requests.get(url).json()
@@ -151,7 +151,7 @@ def register(request):
         loc.save()
         Profile.objects.create(bloodgroup = bloodgroup, name = name, contact = contact, address = address, location=loc, ip = ip, user=user)
 
-        return render(request, 'index.html')
+        return render(request, 'logindonor.html')
 
     return render(request, 'register.html')    
 
@@ -184,7 +184,6 @@ def login(request):
             pass
 
     return render(request, 'logindonor.html')  
-#pa_autoconfigure_django.py --python=3.8 https://github.com/aayush1204/BloodBud.git
 
 def mydata(request):
 
@@ -308,3 +307,7 @@ def emergency(request):
         
 
     return render(request, 'emergencyform.html')    
+
+
+def compatibility(request):
+    return render(request, 'compatibility.html')    

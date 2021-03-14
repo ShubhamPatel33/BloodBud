@@ -71,11 +71,11 @@
             <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                 <div class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
                     <img id="logo" src="{% static 'images/heart.png' %}" alt="img" width="40px" height="40px" />
-                    <span class="ml-3 text-xl font-bold text-2xl">Get Donor</span>
+                    <span class="ml-3 text-xl font-bold text-2xl">BloodBuds</span>
                 </div>
                 <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
                     <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'search' %}">Donor Map</a>
-                    <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Compatibility</a>
+                    <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'comp' %}">Compatibility</a>
                     <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'mydata' %}">My data</a>
                     <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'emergency' %}">Emergency</a>
                     <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'home' %}">Home</a>
