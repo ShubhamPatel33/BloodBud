@@ -118,24 +118,9 @@ def search(request):
     print(ls)
 
     #BLOOD Banks
-    lsbb = []
-    url2 = "https://livingatlas.esri.in/server/rest/services/LivingAtlas/IND_BloodBank_Directory/MapServer/0/query?where=district%20%3D%20'MUMBAI'&outFields=objectid,blood_bank_name,pincode,contact_no,mobile,latitude,longitude,address,helpline,state,city,district&outSR=4326&f=json"
-    # print(radius)
-
-    d = response = requests.get(url2).json()
-    # print(d['features'])
-    for a in d['features']:
-        temp_bank = {}
-
-        temp_bank['latitude'] = a['attributes']['latitude']
-        temp_bank['longitude'] = a['attributes']['longitude']
-        temp_bank['blood_bank_name'] = a['attributes']['blood_bank_name']
-        temp_bank['contact_no'] = a['attributes']['contact_no']
-        temp_bank['address'] = a['attributes']['address']
-        lsbb.append(temp_bank)
-        print(a['geometry']['x'])
+    
     print(car)
-    return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car, 'lsbb':lsbb} ) 
+    return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car, } ) 
 
 def test(request):
     
