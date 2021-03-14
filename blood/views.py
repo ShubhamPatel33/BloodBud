@@ -7,7 +7,6 @@ from math import sin, cos, sqrt, atan2, radians, degrees, sin, cos, radians, deg
 
 from django.contrib.auth.models import User, auth
 
-from geopy.distance import distance as geopy_distance
 
 import requests
 
