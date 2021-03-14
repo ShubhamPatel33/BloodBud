@@ -58,7 +58,7 @@ def search(request):
     print("hello")
     
     radius = 10000
-    car = 1
+    car = '1'
     if request.method == "POST":
         radius = int(request.POST['radius'])*10000
 
@@ -352,8 +352,8 @@ def emergency(request):
                 client.messages.create(to=recipient,
                                     from_="+14422426473",
                                     body=message_to_broadcast)
-        return HttpResponse("messages sent!", 200)
 
+        return render(request, 'emergencymap.html', {"data": ls, 'rad': radius, 'temp':car})
         
 
     return render(request, 'emergencyform.html')    

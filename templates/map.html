@@ -43,9 +43,9 @@
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               };
-              infoWindow.setPosition(pos);
-              infoWindow.setContent("Location found.");
-              infoWindow.open(map);
+              // infoWindow.setPosition(pos);
+              // infoWindow.setContent("Location found.");
+              // infoWindow.open(map);
               map.setCenter(pos);
     
               const marker = new google.maps.Marker({
@@ -208,7 +208,7 @@
                   +name +"  </span></h1><br><h1>My contact -  <span style='color:red'>" + contact+"</h1>"
                     +"<h1>My blood group is <span style='color:red'>" + bloodgroup + "</span></h1>"
   
-      document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
+     // document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
 
       const infowindow = new google.maps.InfoWindow({
         content: html,
@@ -253,6 +253,7 @@
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'search' %}">Donor Map</a>
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Compatibility</a>
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'mydata' %}">My data</a>
+                <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'emergency' %}">Emergency</a>
             </nav>
         </div>
     </header>
@@ -287,7 +288,7 @@
         </div>
         <div class="infobox">
             <article>
-                <h3 class="text-5xl" style="color: #AE2D2D;">Hi<span id="username"></span>!</h3>
+                <h3 class="text-5xl" style="color: #AE2D2D;">Hi <span id="username">{{request.user.username}}</span>!</h3>
                 <h4 class="text-3xl">Ready to help a bud out?</h4>
                 <div class="infopara">
                     <p class="desc">
@@ -322,7 +323,7 @@
             </article>
         </div>
 
-        <!-- <div id="text"></div> -->
+        <div id="text"></div>
 
     </div>
     <footer></footer>

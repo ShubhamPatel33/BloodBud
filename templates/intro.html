@@ -11,7 +11,7 @@
         />
         <title>Welcome</title>
     </head>
-    <body class="bg-gray-900">
+    <body >
         <style>
             a:hover {
                 cursor: pointer;
@@ -25,41 +25,16 @@
             }
         </style>
         <header class="bg-red-500 body-font">
-            <div
-                class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
-            >
-                <div
-                    class="flex title-font font-medium items-center text-white mb-4 md:mb-0"
-                >
-                    <img
-                        id="logo"
-                        src="{% static 'images/heart.png' %}"
-                        alt="img"
-                        width="40px"
-                        height="40px"
-                    />
-                    <span class="ml-3 text-xl font-bold text-2xl"
-                        >Get Donor</span
-                    >
+            <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+                <div class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+                    <img id="logo" src="{% static 'images/heart.png' %}" alt="img" width="40px" height="40px" />
+                    <span class="ml-3 text-xl font-bold text-2xl">Get Donor</span>
                 </div>
-                <nav
-                    class="md:ml-auto flex flex-wrap items-center text-base justify-center"
-                >
-                    <a
-                        class="mr-5 hover:text-black text-lg font-semibold"
-                        href="{% url 'search' %}"
-                        >Donor Map</a
-                    >
-                    <a
-                        class="mr-5 hover:text-black text-lg font-semibold"
-                        href="#"
-                        >Compatibility</a
-                    >
-                    <a
-                        class="mr-5 hover:text-black text-lg font-semibold"
-                        href="{% url 'mydata' %}"
-                        >My data</a
-                    >
+                <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                    <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'search' %}">Donor Map</a>
+                    <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Compatibility</a>
+                    <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'mydata' %}">My data</a>
+                    <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'emergency' %}">Emergency</a>
                 </nav>
             </div>
         </header>
@@ -78,13 +53,13 @@
                     class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
                 >
                     <h1
-                        class="title-font sm:text-4xl text-3xl mb-4 font-large text-white font-serif"
+                        class="title-font sm:text-4xl text-3xl mb-4 font-large font-serif" style="color: #AE2D2D; font-family: Lato, sans-serif;"
                     >
                         Get Donor<br />
                         <br class="hidden lg:inline-block" />Your personal Well - Wisher 
                     
                     </h1>
-                    <p class="mb-8 leading-relaxed font-sans">
+                    <p class="mb-8 leading-relaxed text-black" style="font-family: Lato, sans-serif;">
                         Get Donor is a website which you will need the most when you get into any accident(God forbid).This Web-app shows you 
                         the nearest locations in which <b>donors</b> are available with their blood groups and will also alert one of your family member.
                         In the future scope of the project we also aim to add an alert system in our project which will alert the near by doctors in that particular area about the emergency.
