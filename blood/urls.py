@@ -11,4 +11,5 @@ urlpatterns = [
     path('mydata', views.mydata, name="mydata"),
     
     
+    
 ]

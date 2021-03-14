@@ -11,7 +11,10 @@ from geopy.distance import distance as geopy_distance
 
 import requests
 
-key = "b13a62180a4dc9a03cb00217ab0f4aba"
+from django.views.decorators.csrf import csrf_exempt
+
+
+key = "0f9f6b4b15d7c900a25be24e309d5b99"
 
 #twilio
 from django.conf import settings                                                                                                                                                       
@@ -49,12 +52,23 @@ def home(request):
     print(ls)
     return render(request, 'intro.html',{'data': ls} )
 
+@csrf_exempt
 def search(request):
+
+    print("hello")
+    
+    radius = 10000
+    car = 1
+    if request.method == "POST":
+        radius = int(request.POST['radius'])*10000
+
+        car = request.POST['radius']
+
 
     user_lat = radians(19.1778797)
     user_lon = radians(72.8733183)
 
-    data = Location.objects.all()
+    data = Profile.objects.all()
 
     R = 6373.0
 
@@ -62,51 +76,48 @@ def search(request):
     # lon1 = radians(21.0122287)
 
     ls = []
-
+    print(radius)
     for x in data:
         lat_user = radians(19.1778797)
-        lat_b = radians(x.latitude)
-        long_diff = radians(72.8733183 - x.longitude)
+        ip = x.ip
+        key = "0f9f6b4b15d7c900a25be24e309d5b99"
+        print("hi")
+        # print(x.ip)
+        url = "http://api.ipstack.com/" + ip +"?access_key=" + key
+        #http://api.ipstack.com/203.189.245.0?access_key=0f9f6b4b15d7c900a25be24e309d5b99
+        response = requests.get(url).json()
+        # print(response)
+        lat = response['latitude']
+        lon = response['longitude']
+
+        lat_b = radians(lat)
+        long_diff = radians(72.8733183 - lon)
         distance = (sin(lat_user) * sin(lat_b) +
                     cos(lat_user) * cos(lat_b) * cos(long_diff))
         resToMile = degrees(acos(distance)) * 69.09
         resToMt = resToMile / 0.00062137119223733
 
-        print(resToMt)
+        # print(resToMt)
 
-        if resToMt < 31000:
-            ls.append(x)
+        if resToMt < radius:
+            temp={}
+            temp['name'] = x.name
+            temp['contact'] = x.contact
+            temp['address'] = x.address
 
-    # for x in data:
+            ip = x.ip
 
-    #     lat2 = radians(x.latitude)
-    #     lon2 = radians(x.longitude)
+            temp['latitude'] = lat
+            temp['longitude'] = lon
 
-    #     dlon = lon2 - user_lon
-    #     dlat = lat2 - user_lat
+            temp['id'] = x.id
 
-    #     a = sin(dlat / 2)**2 + cos(user_lat) * cos(lat2) * sin(dlon / 2)**2
-    #     c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-    #     distance = R * c
-
-    #     if distance < 31:
-    #         ls.append(x)
-    # print(ls)
-    # print("Result:", distance)
-    # print("Should be:", 278.546, "km")
-
-    # p1 = Point(19.1778797,72.8733183)
-
-    # for x in data:
-
-    #     p2 = Point(x.latitude, x.longitude)
-    #     distance = p1.distance(p2)
-    #     distance_in_km = distance * 100
-    #     print(distance_in_km)
-
-
-    return render(request, 'search.html',{'data': ls} )
+            ls.append(temp)
+                
+    print(ls)
+    # print(radius)
+    print(car)
+    return render(request, 'map.html',{'data': ls, 'rad': radius, 'temp':car} )
 
 def test(request):
     
@@ -130,9 +141,11 @@ def test(request):
     for x in data:
         lat_user = radians(19.1778797)
         ip = x.ip
-        key = "b4ed70f1b29088efdaaac1f5d5e69873"
-        
+        key = "0f9f6b4b15d7c900a25be24e309d5b99"
+        print("hi")
+        print(x.ip)
         url = "http://api.ipstack.com/" + ip +"?access_key=" + key
+        #http://api.ipstack.com/
         response = requests.get(url).json()
         print(response)
         lat = response['latitude']
@@ -240,7 +253,7 @@ def mydata(request):
         Profile.objects.filter(user__username=username).update(bloodgroup = bloodgroup, name = name, contact = contact, address = address)
         
 
-        return render(request, 'mydata.html')
+        return render(request, 'intro.html')
         
     z = User.objects.filter(username=request.user.username)
 
