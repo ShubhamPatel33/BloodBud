@@ -9,7 +9,6 @@ urlpatterns = [
     path('sms', views.sms, name="sms"),
     path('login', views.login, name="login"),
     path('mydata', views.mydata, name="mydata"),
-    
-    
+        
     
 ]

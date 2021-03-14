@@ -25,7 +25,7 @@
   function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: -34.397, lng: 150.644 },
-      zoom: 6,
+      zoom: 10,
     });
     infoWindow = new google.maps.InfoWindow();
     const locationButton = document.createElement("button");
@@ -66,6 +66,7 @@
             name: '{{i.name}}',
             contact: '{{i.contact}}',
             address: '{{i.address}}',
+            bloodgroup: '{{i.bloodgroup}}'
   
           });
   
@@ -135,9 +136,9 @@
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             };
-            infoWindow.setPosition(pos);
-            infoWindow.setContent("Location found.");
-            infoWindow.open(map);
+            // infoWindow.setPosition(pos);
+           // infoWindow.setContent("Location found.");
+           // infoWindow.open(map);
             map.setCenter(pos);
   
             const marker = new google.maps.Marker({
@@ -190,7 +191,7 @@
   
       document.getElementById("text").innerHTML="";
   
-      const html = `Label:<span>${highlightmarker.label}</span>
+     /* const html = `Label:<span>${highlightmarker.label}</span>
       <br>
       id:<span>${highlightmarker.id}</span>
       <br>
@@ -199,7 +200,13 @@
       address:<span>${highlightmarker.address}</span>
       <br>
       contact:<span>${highlightmarker.contact}</span>
-      `
+      `  */
+      var name = highlightmarker.name;
+      var contact = highlightmarker.contact;
+      var bloodgroup = highlightmarker.bloodgroup;
+      const html = "<h1 style='font-size: 20px'>Hey!</h1><h1 style='font-size: 20px'> I am <span style='color:red'>" 
+                  +name +"  </span></h1><br><h1>My contact -  <span style='color:red'>" + contact+"</h1>"
+                    +"<h1>My blood group is <span style='color:red'>" + bloodgroup + "</span></h1>"
   
       document.querySelector("#text").insertAdjacentHTML('afterbegin', html) ;
 
@@ -243,9 +250,9 @@
                 <span class="ml-3 text-xl font-bold text-2xl">Get Donor</span>
             </div>
             <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Donor Map</a>
+                <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'search' %}">Donor Map</a>
                 <a class="mr-5 hover:text-black text-lg font-semibold" href="#">Compatibility</a>
-                <a class="mr-5 hover:text-black text-lg font-semibold" href="#">My data</a>
+                <a class="mr-5 hover:text-black text-lg font-semibold" href="{% url 'mydata' %}">My data</a>
             </nav>
         </div>
     </header>
@@ -315,7 +322,7 @@
             </article>
         </div>
 
-        <div id="text"></div>
+        <!-- <div id="text"></div> -->
 
     </div>
     <footer></footer>

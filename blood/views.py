@@ -112,6 +112,8 @@ def search(request):
 
             temp['id'] = x.id
 
+            temp['bloodgroup'] = x.bloodgroup
+
             ls.append(temp)
                 
     print(ls)
